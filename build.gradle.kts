@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "2.1.10"
     application
 }
 
@@ -12,7 +12,11 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation("org.jetbrains.kotlinx:dataframe:0.14.1")
     implementation("com.github.javafaker:javafaker:1.0.2")
+    implementation("org.jetbrains.kotlinx:kandy-lets-plot:0.8.3") {
+        exclude(group = "org.yaml", module = "snakeyaml")
+    }
 }
 
 tasks.test {
@@ -20,7 +24,7 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(21)
 }
 
 application {
