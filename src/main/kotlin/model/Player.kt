@@ -1,10 +1,10 @@
 package model
 
-enum class Position {
-    GOALKEEPER,
-    DEFENDER,
-    MIDFIELD,
-    FORWARD
+enum class Position(val russian: String) {
+    MIDFIELD("Полузащитник"),
+    DEFENDER("Защитник"),
+    FORWARD("Нападающий"),
+    GOALKEEPER("Вратарь")
 }
 
 class Player (

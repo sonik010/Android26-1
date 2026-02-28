@@ -13,31 +13,22 @@ class Resolver(private val players: List<Player>) : IResolver {
 
     override fun getCountWithoutAgency(): Int = players.count{it.agency == null}
 
-    override fun getBestScorerDefender(): Pair<String, Int> {
-        val best = players // ищем лучшего защитника (возможен null)
+    override fun getBestScorerDefender(): Pair<String, Int> =
+        players // ищем лучшего защитника (возможен null)
             .filter { it.position == Position.DEFENDER }
             .maxByOrNull { it.goals }
-        return best?.let { it.name to it.goals } // найден -> пара (имя, гол)
+            ?.let { it.name to it.goals } // найден -> пара (имя, гол)
             ?: ("" to 0) // иначе -> пара ('', 0)
-    }
+
 
 
     override fun getTheExpensiveGermanPlayerPosition(): String {
-        val goldplater = players
+        return players
             .filter { it.nationality == "Germany" } // только немцы
             .maxByOrNull { it.transferCost }    // самый дорогой
             ?.position  // получаем позицию (enum)
-            ?.toString()    // enum -> строку
-            ?: "Unknown"    // если нет немцев
-
-        val positionRus = mapOf(    // словарь для перевода
-            "MIDFIELD" to "Полузащитник",
-            "DEFENDER" to "Защитник",
-            "FORWARD" to "Нападающий",
-            "GOALKEEPER" to "Вратарь",
-        )
-
-        return positionRus[goldplater] ?: "Неизвестно"  // возвращаем перевод если есть
+            ?.russian   // enum -> строку
+            ?: "Неизвестно"    // если нет немцев
     }
 
 
@@ -45,7 +36,7 @@ class Resolver(private val players: List<Player>) : IResolver {
         return players
             .groupBy { it.team }    // группируем по командам
             .map { (team, teamPlayers) ->   // для каждой команды счит. среднее кол-во redcards
-                val avgredcards = teamPlayers.sumOf { it.redCards }.toDouble() / teamPlayers.size
+                val avgredcards = teamPlayers.map { it.redCards }.average()
                 team to avgredcards // пара (команда, сред. знач.)
             }
             .maxByOrNull { it.second }  // пара с max сред. кол-во redcards
@@ -61,7 +52,6 @@ class Resolver(private val players: List<Player>) : IResolver {
             .groupBy { it.nationality.trim() }
             .map { (country, playersInCountry) ->
                 val percentage = playersInCountry.size.toDouble() / totalPlayers * 100
-                val shortCountry = if (country.length > 10) country.take(10) + "..." else country
                 shortCountry to percentage
             }
             .toMap()

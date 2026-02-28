@@ -28,12 +28,12 @@ object CsvParser {
             position = Position.valueOf(row[3].trim()),
             nationality = row[4].trim(),
             agency = row[5].trim().ifEmpty { null },
-            transferCost = row[6].trim().toInt(),
-            participations = row[7].trim().toInt(),
-            goals = row[8].trim().toInt(),
-            assists = row[9].trim().toInt(),
-            yellowCards = row[10].trim().toInt(),
-            redCards = row[11].trim().toInt()
+            transferCost = row[6].trim().toIntOrNull() ?: 0,
+            participations = row[7].trim().toIntOrNull() ?: 0,
+            goals = row[8].trim().toIntOrNull() ?: 0,
+            assists = row[9].trim().toIntOrNull() ?: 0,
+            yellowCards = row[10].trim().toIntOrNull() ?: 0,
+            redCards = row[11].trim().toIntOrNull() ?: 0,
         )
     }
 }

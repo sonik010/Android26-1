@@ -98,3 +98,4 @@ lint/tmp/
 /.idea/compiler.xml
 /.idea/kotlinc.xml
 /.idea/migrations.xml
+.idea
